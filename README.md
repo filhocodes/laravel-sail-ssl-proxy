@@ -32,7 +32,7 @@ the [Laravel Sail Documentation](https://laravel.com/docs/9.x/sail) to do so.
 With your project using Laravel Sail, require this package using Composer:
 
 ```bash
-composer require filhocodes/laravel-sail-ssl-proxy
+composer require --dev filhocodes/laravel-sail-ssl-proxy
 ```
 
 Then install the proxy service using the following command:
