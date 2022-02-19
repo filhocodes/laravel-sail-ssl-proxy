@@ -1,0 +1,32 @@
+{
+    "name": "filhocodes/laravel-sail-ssl-proxy",
+    "description": "Somewhat easy solution to add SSL to Sail environments",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FilhoCodes\\LaravelSailSslProxy\\ServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "FilhoCodes\\LaravelSailSslProxy\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/filhocodes-ssl-proxy-env"
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^v9.1.0",
+        "psr/log": "^1.0|^2.0",
+        "symfony/yaml": "^6.0"
+    }
+}

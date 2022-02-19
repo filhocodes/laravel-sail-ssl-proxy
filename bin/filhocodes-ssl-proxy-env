@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+export APP_SERVICE=${APP_SERVICE:-"laravel.test"}
+export WWWUSER=${WWWUSER:-$UID}
+export WWWGROUP=${WWWGROUP:-$(id -g)}
+
+SSL_PROXY_DOCKER_CONTAINER_ID=$(docker-compose ps --quiet "${APP_SERVICE}.proxy")
+SSL_PROXY_CONTAINER_IP=$(docker inspect "${SSL_PROXY_DOCKER_CONTAINER_ID}" -f '{{range .NetworkSettings.Networks }}{{ .IPAddress }}{{ end }}')
+
+SSL_PROXY_ENV_VAR="FILHOCODES_LARAVEL_SAIL_SSL_PROXY_SERVER_IP=${SSL_PROXY_CONTAINER_IP}"
+
+if [[ ! -f ".env" ]]; then
+  echo "$SSL_PROXY_ENV_VAR";
+  exit 0
+fi
+
+if [[ ! $(grep "FILHOCODES_LARAVEL_SAIL_SSL_PROXY_SERVER_IP=" .env) ]]; then
+  {
+    echo "" \
+    && echo "$SSL_PROXY_ENV_VAR"
+  } >> .env
+  exit 0
+fi
+
+sed -i "/FILHOCODES_LARAVEL_SAIL_SSL_PROXY_SERVER_IP=/c${SSL_PROXY_ENV_VAR}" .env
+exit 0

@@ -1,0 +1,11 @@
+* text=auto
+
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+/bin/* diff=bash
+
+/.github export-ignore
+CHANGELOG.md export-ignore

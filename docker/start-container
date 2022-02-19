@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ ! -z "$WWWUSER" ]; then
+    addgroup $WWWUSER sail
+fi
+
+if [ $# -gt 0 ]; then
+    exec su-exec $WWWUSER "$@"
+else
+    /usr/bin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+fi

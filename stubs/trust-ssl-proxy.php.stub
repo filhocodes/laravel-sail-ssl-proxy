@@ -1,0 +1,22 @@
+
+    /**
+     * TrustProxies->proxies()
+     *
+     * @return array|string
+     */
+    protected function proxies(): array|string
+    {
+        $proxies = parent::proxies();
+
+        if (app()->environment(config('filhocodes-ssl-proxy.environments', ['local']))) {
+            if (is_null($proxies)) {
+                $proxies = [];
+            }
+
+            if (is_array($proxies)) {
+              array_push($proxies, config('filhocodes-ssl-proxy.proxy_server_ip'));
+            }
+        }
+
+        return $proxies;
+    }
