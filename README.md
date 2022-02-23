@@ -1,5 +1,8 @@
 # FilhoCodes' Laravel Sail SSL Proxy
 
+[![Composer Package](https://img.shields.io/packagist/v/filhocodes/laravel-sail-ssl-proxy)](https://packagist.org/packages/filhocodes/laravel-sail-ssl-proxy)
+[![Composer Package Downloads](https://img.shields.io/packagist/dt/filhocodes/laravel-sail-ssl-proxy)](https://packagist.org/packages/filhocodes/laravel-sail-ssl-proxy)
+
 An easy and ready way to configure a proxy that allows you to host local projects using Laravel Sail via HTTPS.
 
 The design of the SSL proxy was taken from https://dev.to/adrianmejias/how-to-enable-ssl-for-local-development-using-laravel-sail-and-docker-51ee.
