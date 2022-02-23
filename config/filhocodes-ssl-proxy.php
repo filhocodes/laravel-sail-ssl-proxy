@@ -53,14 +53,29 @@ return [
      | Caddy SSL Authorization Route
      |--------------------------------------------------------------------------
      |
-     | The prefix used in the signature of this library artisan commands.
+     | The route used to authorize the SSL request.
      |
-     | Feel free to change it in case of conflicts with other libraries / your
-     | project commands.
+     | This route will be attached to the SailSslProxyController. It is also
+     | the path defined in the Caddyfile.
      |
      */
 
     'authorization_route' => '.filhocodes-sail-ssl-proxy',
+
+    /*
+     |--------------------------------------------------------------------------
+     | Debug Authorization Controller
+     |--------------------------------------------------------------------------
+     |
+     | If set to true, the SailSslProxyController will log the request made to
+     | authorize the SSL connection, and the result of the authorization logic.
+     |
+     | This log can be used as a simple way to debug any issues with the
+     | authorization process.
+     |
+     */
+
+    'debug_authorization_controller' => env('FILHOCODES_LARAVEL_SAIL_SSL_PROXY_DEBUG', false),
 
     /*
      |--------------------------------------------------------------------------

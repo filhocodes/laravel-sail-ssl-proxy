@@ -2,6 +2,15 @@
     "name": "filhocodes/laravel-sail-ssl-proxy",
     "description": "Somewhat easy solution to add SSL to Sail environments",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcos SF Filho",
+            "email": "marcos@filho.codes",
+            "homepage": "https://filho.codes",
+            "role": "owner"
+        }
+    ],
+    "keywords": ["laravel", "sail", "ssl"],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {

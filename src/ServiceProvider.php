@@ -63,10 +63,6 @@ final class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerRoutes(): void
     {
-        if ($this->app->runningInConsole()) {
-            return;
-        }
-
         if (! ($this->app instanceof CachesRoutes && $this->app->routesAreCached())) {
             /** @var Registrar $router */
             $router = $this->app->make('router');

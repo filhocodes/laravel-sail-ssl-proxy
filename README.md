@@ -58,3 +58,15 @@ After that, spin up the development environment:
 After your first HTTP request to the application, a certificate will be created at
 `docker/sail-ssl-proxy/authorities/intermediate.crt`. You can then add this certificate to your trusted store. In Linux,
 you may use the command `./vendor/bin/filhocodes-ssl-proxy-trust` to add the certificate to the system store.
+
+If the authorities certificates are generated, but the `certificates` directory is empty, this probably means that the
+authorization flow was unsuccessful. This will mostly be due to the domain check. By default, we use parse the domain of
+the Application URL, defined via the `app.url` config (and the default `APP_URL` environment variable). If needed, you
+can publish our config and update the value via the `authorized_domains` config.
+
+```bash
+php artisan vendor:publish --tag=filhocodes-ssl-proxy-config
+```
+
+You can also set the environment variable `FILHOCODES_LARAVEL_SAIL_SSL_PROXY_DEBUG=true` to log the request made to the
+authorization controller.

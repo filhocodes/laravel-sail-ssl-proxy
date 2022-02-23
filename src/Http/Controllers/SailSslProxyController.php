@@ -7,6 +7,8 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Psr\Log\LoggerInterface;
 
 /**
  * SailSslProxyController
@@ -14,19 +16,60 @@ use Illuminate\Http\Response;
 final class SailSslProxyController
 {
     /**
+     * new SailSslProxyController()
+     *
+     * @param ConfigRepository $config
+     * @param LoggerInterface $logger
+     * @param ResponseFactory $responseFactory
+     */
+    public function __construct(
+        private ConfigRepository $config,
+        private LoggerInterface $logger,
+        private ResponseFactory $responseFactory,
+    ) { }
+
+    /**
      * SailSslProxyController()
      *
      * @param Request $request
-     * @param ConfigRepository $config
-     * @param ResponseFactory $responseFactory
      * @return Response
      */
-    public function __invoke(Request $request, ConfigRepository $config, ResponseFactory $responseFactory): Response
-    {
-        if (in_array($request->query('domain'), $config->get('filhocodes-ssl-proxy.authorized_domains'))) {
-            return $responseFactory->noContent(200);
+    public function __invoke(Request $request): Response {
+        $domain = $request->query('domain');
+        $this->logMessage($request, "Verifying domain {$domain}...");
+
+        if (in_array($domain, $this->config->get('filhocodes-ssl-proxy.authorized_domains'))) {
+            $this->logMessage($request, "Domain {$domain} was allowed to a secure connection.");
+            return $this->responseFactory->noContent(200);
         }
 
-        return $responseFactory->noContent(503);
+        $this->logMessage($request, "Domain {$domain} was denied to a secure connection.");
+        return $this->responseFactory->noContent(403);
+    }
+
+    /**
+     * SailSslProxyController->logMessage()
+     *
+     * @param Request $request
+     * @param string $message
+     */
+    private function logMessage(Request $request, string $message): void
+    {
+        if ($this->config->get('filhocodes-ssl-proxy.debug_authorization_controller') !== true) {
+            return;
+        }
+
+        $context = [
+            'config' => Arr::except(
+                $this->config->get('filhocodes-ssl-proxy'),
+                ['command_prefix', 'debug_authorization_controller'],
+            ),
+            'request' => [
+                'query' => $request->query(),
+                'headers' => $request->header(),
+            ],
+        ];
+
+        $this->logger->debug("[SSL PROXY AUTHORIZATION CONTROLLER] ==> $message", $context);
     }
 }
